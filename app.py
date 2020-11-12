@@ -76,7 +76,7 @@ def form_reset_get(request: Request, token: str):
         from itertools import chain
 
         infrateam = chain(glu.get_group_from_ldap('accounts'), glu.get_group_from_ldap('sysadmin'), \
-            glu.get_group_from_ldap('admins'))
+                          glu.get_group_from_ldap('admins'))
 
         if token.username not in infrateam:
             return templates.TemplateResponse('form-reset.html', context={'request': request})
