@@ -3,7 +3,7 @@ FROM python:3.8-slim
 EXPOSE 8000
 ENV PYTHONPATH=/app/password-resets
 
-RUN apt-get update && apt-get install git && \
+RUN apt-get update && apt-get install git -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /requirements.txt
