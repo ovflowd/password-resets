@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<title>GNOME Account Password Reset</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport">
+	<meta content="#4a86cf" name="theme-color">
+	<meta content="Planet GNOME" name="application-name">
+	<link rel="shortcut icon" type="image/png" href="https://static.gnome.org/img/favicon.ico">
+	<link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+	<link href="https://static.gnome.org/css/deneb.min.css" media="all" rel="stylesheet" type="text/css">
+	<link href="https://static.gnome.org/css/fonts.css" media="all" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <script type="text/javascript" src="https://static.gnome.org/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://static.gnome.org/js/deneb.min.js"></script>
+    <script type="text/javascript" src="/static/js/password-strength.js"></script>
+</head>
+
+<body class="gnome-body">
+<header class="gnome-header">
+	<nav class="navbar navbar-fixed-top navbar-default affix-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="gnome-navbar-brand" href="https://www.gnome.org" title="Go to home page">
+					<img alt="GNOME: The Free Software Desktop Project" src="https://static.gnome.org/img/gnome-logo.svg">
+				</a>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<div class="gnome-content">
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-auto">
+                <h1>This form will allow you to effectively reset your GNOME Account
+                Password. Once done you will be able to login against GNOME services or
+                manage your account <a href="https://account.gnome.org" target="_blank">here</a>.
+                </h1>
+			</div>
+		</div>
+        <div class="row my-5">
+          <div class="col-md-4 col-centered">
+            <form method="post">
+              <label for="password" data-error="Password does not match requirements" data-success="Password matches requirements" style="width:400px;"><h3>Please enter your new GNOME Account password:</h3></label>
+              <input type="password" id="password" name="password" class="form-control form-control-lg validate" required>
+              <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 1%">Submit</button>
+            </form>
+          </div>
+          <div class="col-md-5 col-centered" style="margin-top: 1%">
+            <div class="alert alert-warning password-alert" role="alert">
+              <ul>
+                <li class="requirements leng"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 8 chars.</li>
+                <li class="requirements big-letter"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 big letter.</li>
+                <li class="requirements num"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 number.</li>
+                <li class="requirements special-char"><i class="fas fa-check green-text"></i><i class="fas fa-times red-text"></i> Your password must have at least 1 special char.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+</div> <!-- /gnome-content -->
+
+<div class="footer m-t-0">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 footnotes">
+				<div class="section">
+					<p>© <a href="https://www.gnome.org/">The GNOME Project</a>.</p>
+					<p>Hosted by <a href="https://www.redhat.com" target="_blank">Red Hat</a>. Powered by <a href="https://fastapi.tiangolo.com" target="_blank">FastAPI</a>.</p>
+				</div>
+			</div> <!-- /footnotes -->
+		</div>
+	</div>
+</div> <!-- /footer -->
+</body>
+</html>
