@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 import os
 
-DATABASE = 'mysql+pymysql://%s:%s@%s:%i/%s?charset=utf8' % (
+DATABASE = 'mysql+pymysql://%s:%s@%s:%s/%s?charset=utf8' % (
     os.environ.get('DATABASE_USERNAME'),
     os.environ.get('DATABASE_PASSWORD'),
     os.environ.get('DATABASE_HOST'),
