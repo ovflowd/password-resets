@@ -37,7 +37,7 @@ SMTP_RELAY_HOST = os.environ.get('SMTP_RELAY_HOST')
 glu = gnome_ldap_utils.Gnome_ldap_utils(LDAP_GROUP_BASE, LDAP_HOST, LDAP_USER_BASE, LDAP_USER, LDAP_PASSWORD, LDAP_CA_PATH)
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory=f"{DOCUMENT_ROOT}/static), name="static")
+app.mount("/static", StaticFiles(directory=f"{DOCUMENT_ROOT}/static"), name="static")
 
 templates = Jinja2Templates(directory=f"{DOCUMENT_ROOT}/templates")
 
