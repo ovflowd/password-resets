@@ -17,7 +17,9 @@ DATABASE = 'mysql+pymysql://%s:%s@%s:%s/%s?charset=utf8' % (
 ENGINE = create_engine(
     DATABASE,
     encoding="utf-8",
-    echo=True
+    echo=True,
+    pool_pre_ping=True,
+    pool_recycle=3600,
 )
 
 Session = scoped_session(
