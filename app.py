@@ -73,10 +73,12 @@ def form_reset_get(request: Request, token: str):
     token = Session.query(Token).filter(Token.token==token)[0]
 
     if not (token.claimed or token.expired):
-        accountsteam =  glu.get_group_from_ldap('accounts')
-        sysadminteam =  glu.get_group_from_ldap('sysadmin')
+        from itertools import chain
 
-        if token.username not in (accountsteam or sysadminteam):
+        infrateam = chain(glu.get_group_from_ldap('accounts'), glu.get_group_from_ldap('sysadmin'), \
+            glu.get_group_from_ldap('admins'))
+
+        if token.username not in infrateam:
             return templates.TemplateResponse('form-reset.html', context={'request': request})
 
     return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
