@@ -70,16 +70,17 @@ def form_post(request: Request, username: str = Form(...)):
 
 @app.get("/reset/{token}")
 def form_reset_get(request: Request, token: str):
-    token = Session.query(Token).filter(Token.token==token)[0]
+    t = Session.query(Token).filter(Token.token==token).first()
 
-    if not (token.claimed or token.expired):
-        from itertools import chain
+    if t:
+        if not (t.claimed or t.expired):
+            from itertools import chain
 
-        infrateam = chain(glu.get_group_from_ldap('accounts'), glu.get_group_from_ldap('sysadmin'), \
-                          glu.get_group_from_ldap('admins'))
+            infrateam = chain(glu.get_group_from_ldap('accounts'), glu.get_group_from_ldap('sysadmin'), \
+                              glu.get_group_from_ldap('admins'))
 
-        if token.username not in infrateam:
-            return templates.TemplateResponse('form-reset.html', context={'request': request})
+            if t.username not in infrateam:
+                return templates.TemplateResponse('form-reset.html', context={'request': request})
 
     return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
 
@@ -87,7 +88,7 @@ def form_reset_get(request: Request, token: str):
 def form_reset_post(request: Request, token: str, password: str = Form(...)):
     newpassword = {'userPassword': password}
 
-    t = Session.query(Token).filter(Token.token==token)[0]
+    t = Session.query(Token).filter(Token.token==token).first()
     if t:
         try:
             glu.replace_ldap_password(t.username, newpassword)
