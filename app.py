@@ -62,7 +62,7 @@ def form_post(request: Request, username: str = Form(...)):
         _token = Token(username, token, 0, 0, date)
         Session.add(_token)
         Session.commit()
-        Session.close()
+        Session.remove()
 
         send_email(mail.decode('utf-8'), token)
 
@@ -80,8 +80,10 @@ def form_reset_get(request: Request, token: str):
                               glu.get_group_from_ldap('admins'))
 
             if t.username not in infrateam:
+                Session.remove()
                 return templates.TemplateResponse('form-reset.html', context={'request': request})
 
+    Session.remove()
     return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
 
 @app.post("/reset/{token}")
@@ -95,10 +97,12 @@ def form_reset_post(request: Request, token: str, password: str = Form(...)):
 
             t.claimed = 1
             Session.commit()
-            Session.close()
+            Session.remove()
 
             return templates.TemplateResponse('general-form.html', context={'request': request, 'passwordsuccess': True})
         except:
+            Session.remove()
+
             return templates.TemplateResponse('general-form.html', context={'request': request, 'passworderror': True})
 
 def send_email(email, token):
