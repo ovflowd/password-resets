@@ -33,5 +33,5 @@ input[type="text"], input[type="password"] {
 }
 
 button[type="submit"] {
-    margin-top: 1%;
+    margin-top: 20px;
 }
