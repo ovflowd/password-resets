@@ -19,9 +19,11 @@ DOCUMENT_ROOT = os.environ.get('DOCUMENT_ROOT')
 
 sys.path.append(f"{ DOCUMENT_ROOT }/sysadmin-bin")
 sys.path.append(f"{ DOCUMENT_ROOT }/db")
+
 import gnome_ldap_utils
-from db import Token
-from base import Session
+
+from db.db import Token
+from db.base import Session
 
 DOCUMENT_ROOT = os.environ.get('DOCUMENT_ROOT')
 
