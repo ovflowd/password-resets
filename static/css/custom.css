@@ -1,24 +1,37 @@
-label
-{
+label {
     width: 100px;
 }
 
-.alert
-{
+.alert {
     display: none;
 }
 
-.requirements
-{
+.requirements {
     list-style-type: none;
 }
 
-.wrong .fa-check
-{
+.wrong .fa-check {
     display: none;
 }
 
-.good .fa-times
-{
+.good .fa-times {
     display: none;
+}
+
+h1 {
+    color: #4a86cf;
+    font-weight: 400;
+    font-size: 44pt;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="text"], input[type="password"] {
+    border-radius: 6px !important;
+}
+
+button[type="submit"] {
+    margin-top: 1%;
 }
