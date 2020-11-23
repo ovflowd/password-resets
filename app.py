@@ -96,18 +96,18 @@ def form_reset_post(request: Request, token: str, password: str = Form(...)):
 
     t = Session.query(Token).filter(Token.token==token).first()
     if t:
-        try:
-            glu.replace_ldap_password(t.username, newpassword)
+#        try:
+        glu.replace_ldap_password(t.username, newpassword)
 
-            t.claimed = 1
-            Session.commit()
-            Session.remove()
+        t.claimed = 1
+        Session.commit()
+        Session.remove()
 
-            return templates.TemplateResponse('general-form.html', context={'request': request, 'passwordsuccess': True})
-        except:
-            Session.remove()
+       # return templates.TemplateResponse('general-form.html', context={'request': request, 'passwordsuccess': True})
+#        except:
+#            Session.remove()
 
-            return templates.TemplateResponse('general-form.html', context={'request': request, 'passworderror': True})
+#            return templates.TemplateResponse('general-form.html', context={'request': request, 'passworderror': True})
 
 def send_email(email, token):
     import imghdr
