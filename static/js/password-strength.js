@@ -1,82 +1,94 @@
-$(function () {
-    var $password = $(".form-control[type='password']");
-    var $passwordAlert = $(".password-alert");
-    var $requirements = $(".requirements");
-    var leng, bigLetter, num, specialChar;
-    var $leng = $(".leng");
-    var $bigLetter = $(".big-letter");
-    var $num = $(".num");
-    var $specialChar = $(".special-char");
-    var specialChars = "!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?`~";
-    var numbers = "0123456789";
+jQuery(() => {
+  const $passwordInput = jQuery('input[type="password"]');
+  const $passwordAlert = jQuery('.password-alert');
+  const $form = jQuery('form');
+  const $requirements = jQuery('.requirements');
 
-    $requirements.addClass("wrong");
-    $password.on("focus", function(){$passwordAlert.show();});
+  let hasMinLength, hasUppercase, hasNumbers, hasSpecials;
 
-    $password.on("input blur", function (e) {
-        var el = $(this);
-        var val = el.val();
-        $passwordAlert.show();
+  const $length = jQuery('.length');
+  const $bigLetter = jQuery('.big-letter');
+  const $numbers = jQuery('.numbers');
+  const $specialChar = jQuery('.special-char');
 
-        if (val.length < 8) {
-            leng = false;
-        }
-        else if (val.length > 7) {
-            leng=true;
-        }
-        
+  $requirements.addClass('wrong');
 
-        if(val.toLowerCase()==val){
-            bigLetter = false;
-        }
-        else{bigLetter=true;}
-        
-        num = false;
-        for(var i=0; i<val.length;i++){
-            for(var j=0; j<numbers.length; j++){
-                if(val[i]==numbers[j]){
-                    num = true;
-                }
-            }
-        }
-        
-        specialChar=false;
-        for(var i=0; i<val.length;i++){
-            for(var j=0; j<specialChars.length; j++){
-                if(val[i]==specialChars[j]){
-                    specialChar = true;
-                }
-            }
-        }
+  $passwordInput.on('focus', () => {
+    $passwordAlert.show();
+  });
 
-        console.log(leng, bigLetter, num, specialChar);
-        
-        if(leng==true&&bigLetter==true&&num==true&&specialChar==true){
-            $(this).addClass("valid").removeClass("invalid");
-            $requirements.removeClass("wrong").addClass("good");
-            $passwordAlert.removeClass("alert-warning").addClass("alert-success");
-        }
-        else
-        {
-            $(this).addClass("invalid").removeClass("valid");
-            $passwordAlert.removeClass("alert-success").addClass("alert-warning");
+  $form.on('submit', () => {
+    const input = document.querySelector('input[type="password"]');
 
-            if(leng==false){$leng.addClass("wrong").removeClass("good");}
-            else{$leng.addClass("good").removeClass("wrong");}
+    const isInputValid = input.checkValidity();
 
-            if(bigLetter==false){$bigLetter.addClass("wrong").removeClass("good");}
-            else{$bigLetter.addClass("good").removeClass("wrong");}
+    if (!isInputValid) {
+      input.reportValidity();
 
-            if(num==false){$num.addClass("wrong").removeClass("good");}
-            else{$num.addClass("good").removeClass("wrong");}
+      return false;
+    }
 
-            if(specialChar==false){$specialChar.addClass("wrong").removeClass("good");}
-            else{$specialChar.addClass("good").removeClass("wrong");}
-        }
-        
-        
-        if(e.type == "blur"){
-                $passwordAlert.hide();
-            }
-    });
+    if (hasMinLength && hasUppercase && hasNumbers && hasSpecials) {
+      input.reportValidity();
+
+      return true;
+    }
+
+    return false;
+  });
+
+  $passwordInput.on('input blur', (e) => {
+    const inputElement = jQuery(e.target);
+
+    const inputValue = inputElement.val();
+
+    $passwordAlert.show();
+
+    hasMinLength = inputValue.length > 7 && inputValue.length < 48;
+
+    hasUppercase = inputValue.toLowerCase() !== inputValue;
+
+    hasNumbers = /\d/.test(inputValue);
+
+    hasSpecials = /^[\w!@#$%^*()_+\-=\[\]{};\\|,.<>\/?]+$/.test(inputValue);
+
+    if (hasMinLength && hasUppercase && hasNumbers && hasSpecials) {
+      jQuery(this).addClass('valid').removeClass('invalid');
+
+      $requirements.removeClass('wrong').addClass('good');
+      $passwordAlert.removeClass('alert-warning').addClass('alert-success');
+    } else {
+      jQuery(this).addClass('invalid').removeClass('valid');
+
+      $passwordAlert.removeClass('alert-success').addClass('alert-warning');
+
+      if (hasMinLength === false) {
+        $length.addClass('wrong').removeClass('good');
+      } else {
+        $length.addClass('good').removeClass('wrong');
+      }
+
+      if (hasUppercase === false) {
+        $bigLetter.addClass('wrong').removeClass('good');
+      } else {
+        $bigLetter.addClass('good').removeClass('wrong');
+      }
+
+      if (hasNumbers === false) {
+        $numbers.addClass('wrong').removeClass('good');
+      } else {
+        $numbers.addClass('good').removeClass('wrong');
+      }
+
+      if (hasSpecials === false) {
+        $specialChar.addClass('wrong').removeClass('good');
+      } else {
+        $specialChar.addClass('good').removeClass('wrong');
+      }
+    }
+
+    if (e.type === 'blur') {
+      $passwordAlert.hide();
+    }
+  });
 });
