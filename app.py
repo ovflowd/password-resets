@@ -135,6 +135,11 @@ def send_email(email, token):
         msgRoot.add_related(image1, maintype='image',
                             subtype=imghdr.what(None, image1), cid='<image1>')
 
+    with open(f"{DOCUMENT_ROOT}/static/images/Mail-LockSymbol.jpg", 'rb') as _img2:
+        image2 = _img2.read()
+        msgRoot.add_related(image2, maintype='image',
+                            subtype=imghdr.what(None, image2), cid='<image2>')
+
     with smtplib.SMTP(f"{SMTP_RELAY_HOST}", 25) as server:
         server.starttls()
         server.sendmail(
