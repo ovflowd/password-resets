@@ -14,8 +14,9 @@ def expired_token():
     tokens = Session.query(Token).all()
 
     for t in tokens:
-        if datetime.now() > t.date + timedelta(hours=1):
-            t.expired = 1
+        if not t.claimed:
+            if datetime.now() > t.date + timedelta(hours=1):
+                t.expired = 1
 
     Session.commit()
     Session.close()
