@@ -54,21 +54,26 @@ def form_post(request: Request, username: str = Form(...)):
 
     mail = glu.get_attributes_from_ldap(username, 'mail')
     if mail:
-        tokens = Session.query(Token.username, Token.expired, Token.claimed).filter(Token.username==username, Token.expired==0, Token.claimed==0)
-        if len(list(tokens)) == 1:
+        from itertools import chain
+        infrateam = chain(glu.get_group_from_ldap('accounts'), glu.get_group_from_ldap('sysadmin'), \
+                          glu.get_group_from_ldap('admins'))
+
+        if username not in infrateam:
+            tokens = Session.query(Token.username, Token.expired, Token.claimed).filter(Token.username==username, Token.expired==0, Token.claimed==0)
+            if len(list(tokens)) == 1:
+                Session.remove()
+
+                return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
+
+            date = datetime.datetime.now()
+            token = secrets.token_hex(16)
+
+            _token = Token(username, token, 0, 0, date)
+            Session.add(_token)
+            Session.commit()
             Session.remove()
 
-            return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
-
-        date = datetime.datetime.now()
-        token = secrets.token_hex(16)
-
-        _token = Token(username, token, 0, 0, date)
-        Session.add(_token)
-        Session.commit()
-        Session.remove()
-
-        send_email(mail.decode('utf-8'), token)
+            send_email(mail.decode('utf-8'), token)
 
     return templates.TemplateResponse('general-form.html', context={'request': request, 'submitted': True})
 
@@ -78,14 +83,8 @@ def form_reset_get(request: Request, token: str):
 
     if t:
         if not (t.claimed or t.expired):
-            from itertools import chain
-
-            infrateam = chain(glu.get_group_from_ldap('accounts'), glu.get_group_from_ldap('sysadmin'), \
-                              glu.get_group_from_ldap('admins'))
-
-            if t.username not in infrateam:
-                Session.remove()
-                return templates.TemplateResponse('form-reset.html', context={'request': request})
+            Session.remove()
+            return templates.TemplateResponse('form-reset.html', context={'request': request})
 
     Session.remove()
     return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
