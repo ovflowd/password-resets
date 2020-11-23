@@ -104,10 +104,11 @@ def form_reset_post(request: Request, token: str, password: str = Form(...)):
             Session.remove()
 
             return templates.TemplateResponse('general-form.html', context={'request': request, 'passwordsuccess': True})
-        except:
+        except Exception as e:
+            return { 'exception': e }
             Session.remove()
 
-            return templates.TemplateResponse('general-form.html', context={'request': request, 'passworderror': True})
+            #return templates.TemplateResponse('general-form.html', context={'request': request, 'passworderror': True})
 
 def send_email(email, token):
     import imghdr
