@@ -97,7 +97,7 @@ def form_reset_post(request: Request, token: str, password: str = Form(...)):
     t = Session.query(Token).filter(Token.token==token).first()
     if t:
         try:
-            glu.replace_ldap_password(t.username, newpassword)
+            glu.replace_ldap_password(t.username, newpassword['userPassword'])
 
             t.claimed = 1
             Session.commit()
