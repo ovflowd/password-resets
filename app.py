@@ -56,6 +56,8 @@ def form_post(request: Request, username: str = Form(...)):
     if mail:
         tokens = Session.query(Token.username, Token.expired, Token.claimed).filter(Token.username==username, Token.expired==0, Token.claimed==0)
         if len(list(tokens)) == 1:
+            Session.remove()
+
             return templates.TemplateResponse('general-form.html', context={'request': request, 'badtoken': True})
 
         date = datetime.datetime.now()
